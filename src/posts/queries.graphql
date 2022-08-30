@@ -1,0 +1,35 @@
+"The post may have different type of media"
+enum TypePost {
+  "A single image"
+  IMAGE
+  "More that one image"
+  CARRUSEL
+  "A video"
+  VIDEO
+}
+
+type Author {
+  _id: ID!
+  name: String!
+  image: String
+  username: String!
+}
+
+type Post {
+  _id: ID!
+  description: String
+  type: TypePost!
+  image: String
+  images: [String!]
+  video: String
+  author: Author
+  nofComments: Int
+  nofLikes: Int
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Query {
+  getPost(id: ID!): Post!
+  getAllPosts: [Post!]
+}

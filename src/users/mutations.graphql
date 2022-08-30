@@ -1,0 +1,36 @@
+interface MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+}
+
+# Inputs
+input CreateUserInput {
+  name: String
+  image: String
+  bio: String
+  username: String
+  website: String
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  name: String
+  image: String
+  bio: String
+  website: String
+}
+
+type UserResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  user: User
+}
+
+type Mutation {
+  createUser(userInput: CreateUserInput!): UserResponse!
+  updateUser(userId: ID!, userInput: UpdateUserInput!): UserResponse!
+  deleteUser(userId: ID!): UserResponse!
+}

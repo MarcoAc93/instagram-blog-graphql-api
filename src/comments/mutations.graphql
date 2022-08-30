@@ -1,0 +1,10 @@
+type CommentResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  comment: Comment
+}
+
+type Mutation {
+  createComment(postId: ID!, description: String!): CommentResponse!
+}

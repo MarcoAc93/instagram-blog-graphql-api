@@ -1,0 +1,28 @@
+type PostResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  post: Post
+}
+
+input CreatePostAuthorInput {
+  _id: ID!
+  name: String!
+  username: String!
+  image: String
+}
+
+input CreatePostInput {
+  description: String!
+  type: TypePost!
+  image: String
+  images: [String!]
+  video: String
+  author: CreatePostAuthorInput
+}
+
+type Mutation {
+  createPost(createPostInput: CreatePostInput!): PostResponse!
+  updatePost(postId: ID!, description: String!): PostResponse!
+  deletePost(postId: ID!): PostResponse!
+}

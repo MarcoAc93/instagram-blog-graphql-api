@@ -1,0 +1,12 @@
+type Comment {
+  _id: ID!
+  description: String!
+  postId: ID!
+  userId: ID!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Query {
+  getCommetsForPost(postId: ID!): [Comment!]
+}

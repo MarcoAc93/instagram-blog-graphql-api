@@ -1,0 +1,49 @@
+"""
+The user's type
+"""
+type User {
+  "The unique id of the user"
+  _id: ID!
+  "The name of the user"
+  name: String!
+  "The profile image"
+  image: String
+  "Some kind of description about the user"
+  bio: String
+  "The username that will be displayed on the website"
+  username: String!
+  "His personal website"
+  website: String
+  "The email (must be unique)"
+  email: String!
+  "When the user was created"
+  createdAt: String
+  "When it was last updated"
+  updatedAt: String
+}
+
+type UserLoggedIn {
+  token: String!
+  user: User!
+}
+
+type UserLoginResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  data: UserLoggedIn
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Query {
+  "This query will return an array (or empty array) with all the users on the DB"
+  getAllUsers: [User]!
+  "This query will return a single user by their id"
+  getUserById(userId: String!): User
+  "Query for login a user"
+  login(loginInput: LoginInput!): UserLoginResponse!
+}

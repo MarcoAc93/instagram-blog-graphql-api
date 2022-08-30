@@ -4,17 +4,17 @@ import { MongoDataSource } from "apollo-datasource-mongodb";
 import { CreatePostInput } from "../../__generated__/types";
 
 interface PostDocument {
-  _id: string | ObjectId;
+  _id: ObjectId;
   description: string;
   type: string;
-  image?: string;
-  images?: [string];
-  video?: string;
+  image: string;
+  images: [string];
+  video: string;
   author: {
-    _id: string;
+    _id: ObjectId;
     username: string;
     name: string;
-    image?: string;
+    image: string;
   };
   nofComments: number;
   nofLikes: number;
@@ -23,8 +23,8 @@ interface PostDocument {
 }
 
 class Post extends MongoDataSource<PostDocument> {
-  async getPostById(postId: string | ObjectId) {
-    return await this.collection.findOne({ _id: postId });
+  async getPostById(postId: ObjectId) {
+    return await this.collection.findOne({ _id: new ObjectId(postId) });
   }
 
   async getAllPosts() {
@@ -45,13 +45,12 @@ class Post extends MongoDataSource<PostDocument> {
 
   async updatePost(postId: string, description: string) {
     const updatedAt = new Date().toISOString();
-    const _id = new ObjectId(postId);
-    await this.collection.updateOne({ _id }, { $set: { description, updatedAt } });
-    return await this.getPostById(_id)
+    await this.collection.updateOne({ _id: new ObjectId(postId) }, { $set: { description, updatedAt } });
+    return await this.getPostById(new ObjectId(postId))
   }
 
   async deletePost(postId: string) {
-    const result = this.collection.deleteOne({ _id: postId });
+    const result = this.collection.deleteOne({ _id: new ObjectId(postId) });
     return result;
   }
 }

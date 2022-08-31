@@ -55,7 +55,12 @@ class Post extends MongoDataSource<PostDocument> {
   }
 
   async updateNumberOfLikes(postId: ObjectId, numberOfLikes: number) {
-    const result = await this.collection.updateOne({ _id: postId }, { $set: { nofLikes: numberOfLikes } });
+    await this.collection.updateOne({ _id: postId }, { $set: { nofLikes: numberOfLikes } });
+    return await this.collection.findOne({ _id: postId });
+  }
+
+  async updateNumberOfComments(postId: ObjectId, numberOfComments: number) {
+    await this.collection.updateOne({ _id: postId }, { $set: { nofComments: numberOfComments} });
     return await this.collection.findOne({ _id: postId });
   }
 }

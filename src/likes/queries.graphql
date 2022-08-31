@@ -1,11 +1,15 @@
-type Like {
+type LikeUser {
   _id: ID!
-  postId: ID!
-  userId: ID!
+  username: String!
+  image: String
   createdAt: String!
-  updatedAt: String!
+}
+
+type LikesOfPost {
+  count: Int!
+  users: [LikeUser!]
 }
 
 type Query {
-  getLikesForPost(postId: ID!): [Like!]
+  getLikesForPost(postId: ID!): LikesOfPost!
 }

@@ -24,6 +24,14 @@ class Like extends MongoDataSource<LikeDocument> {
     const result = await this.collection.deleteOne({ postId, userId });
     return result;
   }
+
+  async getLikesForPost(postId: ObjectId) {
+    const likesCoursor = this.collection.aggregate([
+      { $match: { postId } },
+      { $lookup: { from: 'User', localField: 'userId', foreignField: '_id', as: 'user' } }
+    ]);
+    return await likesCoursor.toArray();
+  }
 }
 
 export default Like;

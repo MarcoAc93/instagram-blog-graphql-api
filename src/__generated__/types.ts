@@ -66,21 +66,26 @@ export type CreateUserInput = {
   website?: InputMaybe<Scalars['String']>;
 };
 
-export type Like = {
-  __typename?: 'Like';
-  _id: Scalars['ID'];
-  createdAt: Scalars['String'];
-  postId: Scalars['ID'];
-  updatedAt: Scalars['String'];
-  userId: Scalars['ID'];
-};
-
 export type LikeResponse = {
   __typename?: 'LikeResponse';
   code: Scalars['Int'];
   message: Scalars['String'];
   post?: Maybe<Post>;
   success: Scalars['Boolean'];
+};
+
+export type LikeUser = {
+  __typename?: 'LikeUser';
+  _id: Scalars['ID'];
+  createdAt: Scalars['String'];
+  image?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+export type LikesOfPost = {
+  __typename?: 'LikesOfPost';
+  count: Scalars['Int'];
+  users?: Maybe<Array<LikeUser>>;
 };
 
 export type LoginInput = {
@@ -178,7 +183,7 @@ export type Query = {
   /** This query will return an array (or empty array) with all the users on the DB */
   getAllUsers: Array<Maybe<User>>;
   getCommetsForPost?: Maybe<Array<Comment>>;
-  getLikesForPost?: Maybe<Array<Like>>;
+  getLikesForPost: LikesOfPost;
   getPost: Post;
   /** This query will return a single user by their id */
   getUserById?: Maybe<User>;
@@ -351,8 +356,9 @@ export type ResolversTypes = {
   CreateUserInput: CreateUserInput;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  Like: ResolverTypeWrapper<Like>;
   LikeResponse: ResolverTypeWrapper<LikeResponse>;
+  LikeUser: ResolverTypeWrapper<LikeUser>;
+  LikesOfPost: ResolverTypeWrapper<LikesOfPost>;
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
   MutationResponse: ResolversTypes['UserResponse'];
@@ -379,8 +385,9 @@ export type ResolversParentTypes = {
   CreateUserInput: CreateUserInput;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
-  Like: Like;
   LikeResponse: LikeResponse;
+  LikeUser: LikeUser;
+  LikesOfPost: LikesOfPost;
   LoginInput: LoginInput;
   Mutation: {};
   MutationResponse: ResolversParentTypes['UserResponse'];
@@ -421,20 +428,25 @@ export type CommentResponseResolvers<ContextType = any, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type LikeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Like'] = ResolversParentTypes['Like']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  postId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type LikeResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikeResponse'] = ResolversParentTypes['LikeResponse']> = {
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LikeUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikeUser'] = ResolversParentTypes['LikeUser']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type LikesOfPostResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikesOfPost'] = ResolversParentTypes['LikesOfPost']> = {
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  users?: Resolver<Maybe<Array<ResolversTypes['LikeUser']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -483,7 +495,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getAllPosts?: Resolver<Maybe<Array<ResolversTypes['Post']>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   getCommetsForPost?: Resolver<Maybe<Array<ResolversTypes['Comment']>>, ParentType, ContextType, RequireFields<QueryGetCommetsForPostArgs, 'postId'>>;
-  getLikesForPost?: Resolver<Maybe<Array<ResolversTypes['Like']>>, ParentType, ContextType, RequireFields<QueryGetLikesForPostArgs, 'postId'>>;
+  getLikesForPost?: Resolver<ResolversTypes['LikesOfPost'], ParentType, ContextType, RequireFields<QueryGetLikesForPostArgs, 'postId'>>;
   getPost?: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<QueryGetPostArgs, 'id'>>;
   getUserById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'userId'>>;
   login?: Resolver<ResolversTypes['UserLoginResponse'], ParentType, ContextType, RequireFields<QueryLoginArgs, 'loginInput'>>;
@@ -528,8 +540,9 @@ export type Resolvers<ContextType = any> = {
   Author?: AuthorResolvers<ContextType>;
   Comment?: CommentResolvers<ContextType>;
   CommentResponse?: CommentResponseResolvers<ContextType>;
-  Like?: LikeResolvers<ContextType>;
   LikeResponse?: LikeResponseResolvers<ContextType>;
+  LikeUser?: LikeUserResolvers<ContextType>;
+  LikesOfPost?: LikesOfPostResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   MutationResponse?: MutationResponseResolvers<ContextType>;
   Post?: PostResolvers<ContextType>;

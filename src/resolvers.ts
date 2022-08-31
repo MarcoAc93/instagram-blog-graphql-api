@@ -10,6 +10,7 @@ const resolvers: Resolvers = {
     ...usersResolvers.Query,
     ...postsResolvers.Query,
     ...commentsResolvers.Query,
+    ...likesResolvers.Query,
   },
   Mutation: {
     ...usersResolvers.Mutation,

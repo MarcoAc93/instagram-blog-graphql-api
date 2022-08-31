@@ -11,9 +11,12 @@ interface CommentDocument {
 }
 
 class Comment extends MongoDataSource<CommentDocument> {
-  async getAllCommentsFromPost(postId: string) {
-    const comments = await this.collection.find({ postId: new ObjectId(postId) }).toArray();
-    return comments;
+  async getAllCommentsFromPost(postId: ObjectId) {
+    const commentsCursor = this.collection.aggregate([
+      { $match: { postId } },
+      { $lookup: { from: 'User', localField: 'userId', foreignField: '_id', as: 'user' } },
+    ])
+    return await commentsCursor.toArray();
   }
 
   async createComment(newComment: CommentDocument) {

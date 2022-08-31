@@ -40,6 +40,36 @@ export type CommentResponse = {
   success: Scalars['Boolean'];
 };
 
+export type CommentUser = {
+  __typename?: 'CommentUser';
+  _id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+export type CommentsOfPost = {
+  __typename?: 'CommentsOfPost';
+  _id: Scalars['ID'];
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  postId: Scalars['String'];
+  user: CommentUser;
+};
+
+export type CommentsResponse = {
+  __typename?: 'CommentsResponse';
+  code: Scalars['Int'];
+  data?: Maybe<CommentsResponseData>;
+  message: Scalars['String'];
+  success: Scalars['Boolean'];
+};
+
+export type CommentsResponseData = {
+  __typename?: 'CommentsResponseData';
+  comments?: Maybe<Array<CommentsOfPost>>;
+  count: Scalars['Int'];
+};
+
 export type CreatePostAuthorInput = {
   _id: Scalars['ID'];
   image?: InputMaybe<Scalars['String']>;
@@ -182,7 +212,7 @@ export type Query = {
   getAllPosts?: Maybe<Array<Post>>;
   /** This query will return an array (or empty array) with all the users on the DB */
   getAllUsers: Array<Maybe<User>>;
-  getCommetsForPost?: Maybe<Array<Comment>>;
+  getCommetsForPost: CommentsResponse;
   getLikesForPost: LikesOfPost;
   getPost: Post;
   /** This query will return a single user by their id */
@@ -351,6 +381,10 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Comment: ResolverTypeWrapper<Comment>;
   CommentResponse: ResolverTypeWrapper<CommentResponse>;
+  CommentUser: ResolverTypeWrapper<CommentUser>;
+  CommentsOfPost: ResolverTypeWrapper<CommentsOfPost>;
+  CommentsResponse: ResolverTypeWrapper<CommentsResponse>;
+  CommentsResponseData: ResolverTypeWrapper<CommentsResponseData>;
   CreatePostAuthorInput: CreatePostAuthorInput;
   CreatePostInput: CreatePostInput;
   CreateUserInput: CreateUserInput;
@@ -380,6 +414,10 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Comment: Comment;
   CommentResponse: CommentResponse;
+  CommentUser: CommentUser;
+  CommentsOfPost: CommentsOfPost;
+  CommentsResponse: CommentsResponse;
+  CommentsResponseData: CommentsResponseData;
   CreatePostAuthorInput: CreatePostAuthorInput;
   CreatePostInput: CreatePostInput;
   CreateUserInput: CreateUserInput;
@@ -425,6 +463,36 @@ export type CommentResponseResolvers<ContextType = any, ParentType extends Resol
   comment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentUser'] = ResolversParentTypes['CommentUser']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentsOfPostResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsOfPost'] = ResolversParentTypes['CommentsOfPost']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['CommentUser'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsResponse'] = ResolversParentTypes['CommentsResponse']> = {
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  data?: Resolver<Maybe<ResolversTypes['CommentsResponseData']>, ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type CommentsResponseDataResolvers<ContextType = any, ParentType extends ResolversParentTypes['CommentsResponseData'] = ResolversParentTypes['CommentsResponseData']> = {
+  comments?: Resolver<Maybe<Array<ResolversTypes['CommentsOfPost']>>, ParentType, ContextType>;
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -494,7 +562,7 @@ export type PostResponseResolvers<ContextType = any, ParentType extends Resolver
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAllPosts?: Resolver<Maybe<Array<ResolversTypes['Post']>>, ParentType, ContextType>;
   getAllUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
-  getCommetsForPost?: Resolver<Maybe<Array<ResolversTypes['Comment']>>, ParentType, ContextType, RequireFields<QueryGetCommetsForPostArgs, 'postId'>>;
+  getCommetsForPost?: Resolver<ResolversTypes['CommentsResponse'], ParentType, ContextType, RequireFields<QueryGetCommetsForPostArgs, 'postId'>>;
   getLikesForPost?: Resolver<ResolversTypes['LikesOfPost'], ParentType, ContextType, RequireFields<QueryGetLikesForPostArgs, 'postId'>>;
   getPost?: Resolver<ResolversTypes['Post'], ParentType, ContextType, RequireFields<QueryGetPostArgs, 'id'>>;
   getUserById?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserByIdArgs, 'userId'>>;
@@ -540,6 +608,10 @@ export type Resolvers<ContextType = any> = {
   Author?: AuthorResolvers<ContextType>;
   Comment?: CommentResolvers<ContextType>;
   CommentResponse?: CommentResponseResolvers<ContextType>;
+  CommentUser?: CommentUserResolvers<ContextType>;
+  CommentsOfPost?: CommentsOfPostResolvers<ContextType>;
+  CommentsResponse?: CommentsResponseResolvers<ContextType>;
+  CommentsResponseData?: CommentsResponseDataResolvers<ContextType>;
   LikeResponse?: LikeResponseResolvers<ContextType>;
   LikeUser?: LikeUserResolvers<ContextType>;
   LikesOfPost?: LikesOfPostResolvers<ContextType>;

@@ -7,6 +7,32 @@ type Comment {
   updatedAt: String!
 }
 
+type CommentUser {
+  _id: ID!
+  username: String!
+  image: String
+}
+
+type CommentsOfPost {
+  _id: ID!
+  description: String!
+  postId: String!
+  createdAt: String!
+  user: CommentUser!
+}
+
+type CommentsResponseData {
+  count: Int!
+  comments: [CommentsOfPost!]
+}
+
+type CommentsResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  data: CommentsResponseData
+}
+
 type Query {
-  getCommetsForPost(postId: ID!): [Comment!]
+  getCommetsForPost(postId: ID!): CommentsResponse!
 }

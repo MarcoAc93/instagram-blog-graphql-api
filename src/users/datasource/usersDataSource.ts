@@ -40,20 +40,20 @@ class Users extends MongoDataSource<UserDocument> {
     return user;
   }
 
-  async updateUser(userId: string, userInput: UpdateUserInput) {
+  async updateUser(userId: ObjectId, userInput: UpdateUserInput) {
     try {
       const fieldsToUpdate = {}
       Object.assign(fieldsToUpdate, userInput);
-      await this.collection.updateOne({ _id: new ObjectId(userId) }, { $set: { ...fieldsToUpdate } });
-      return await this.findOneById(new ObjectId(userId));
+      await this.collection.updateOne({ _id: userId }, { $set: { ...fieldsToUpdate } });
+      return await this.findOneById(userId);
     } catch (error) {
       return undefined;
     }
   }
 
-  async deleteUser(userId: string): Promise<boolean | undefined> {
+  async deleteUser(userId: ObjectId): Promise<boolean | undefined> {
     try {
-      const userDeleted = await this.collection.deleteOne({ _id: new ObjectId(userId) });
+      const userDeleted = await this.collection.deleteOne({ _id: userId });
       return userDeleted.acknowledged;
     } catch (error) {
       return undefined;

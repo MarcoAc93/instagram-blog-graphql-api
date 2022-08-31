@@ -24,7 +24,7 @@ export interface PostDocument {
 
 class Post extends MongoDataSource<PostDocument> {
   async getPostById(postId: ObjectId) {
-    return await this.collection.findOne({ _id: new ObjectId(postId) });
+    return await this.collection.findOne({ _id: postId });
   }
 
   async getAllPosts() {
@@ -43,14 +43,14 @@ class Post extends MongoDataSource<PostDocument> {
     return postCreated;
   }
 
-  async updatePost(postId: string, description: string) {
+  async updatePost(postId: ObjectId, description: string) {
     const updatedAt = new Date().toISOString();
-    await this.collection.updateOne({ _id: new ObjectId(postId) }, { $set: { description, updatedAt } });
-    return await this.getPostById(new ObjectId(postId))
+    await this.collection.updateOne({ _id: postId }, { $set: { description, updatedAt } });
+    return await this.getPostById(postId);
   }
 
-  async deletePost(postId: string) {
-    const result = this.collection.deleteOne({ _id: new ObjectId(postId) });
+  async deletePost(postId: ObjectId) {
+    const result = this.collection.deleteOne({ _id: postId });
     return result;
   }
 

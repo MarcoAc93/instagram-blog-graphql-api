@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { checkAuth } from "../../utils";
 import { Resolvers, User, UserResponse } from "../../__generated__/types";
 
@@ -9,7 +10,8 @@ const Mutation: Resolvers['Mutation'] = {
   },
   updateUser: async (_, { userInput, userId }, { dataSources, req }): Promise<UserResponse> => {
     checkAuth(req);
-    const updatedUser = await dataSources.usersAPI.updateUser(userId, userInput);
+    const userObjectId = new ObjectId(userId);
+    const updatedUser = await dataSources.usersAPI.updateUser(userObjectId, userInput);
     return {
       user: updatedUser ?? null,
       code: updatedUser ? 200 : 400,
@@ -20,7 +22,8 @@ const Mutation: Resolvers['Mutation'] = {
   },
   deleteUser: async (_, { userId }, { dataSources, req }): Promise<UserResponse> => {
     checkAuth(req);
-    const userDeleted = await dataSources.usersAPI.deleteUser(userId);
+    const userObjectId = new ObjectId(userId);
+    const userDeleted = await dataSources.usersAPI.deleteUser(userObjectId);
     return {
       code: userDeleted ? 200 : 400,
       success: userDeleted ? true : false,

@@ -1,4 +1,5 @@
 import { ApolloError } from "apollo-server-core";
+import { ObjectId } from 'mongodb';
 import { checkAuth } from "../../utils";
 import { Resolvers } from "../../__generated__/types";
 
@@ -10,7 +11,8 @@ const Query: Resolvers['Query'] = {
   getPost: async (_, { id }, { req, dataSources }) => {
     checkAuth(req);
     try {
-      const post = await dataSources.postsAPI.getPostById(id);
+      const postObjectId = new ObjectId(id);
+      const post = await dataSources.postsAPI.getPostById(postObjectId);
       return post;
     } catch (error) {
       throw new ApolloError('Something went wrong, try again later');

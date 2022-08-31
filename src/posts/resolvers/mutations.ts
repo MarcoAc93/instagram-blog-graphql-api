@@ -23,7 +23,8 @@ const Mutation: Resolvers['Mutation'] = {
   updatePost: async (_, { description, postId }, { dataSources, req }) => {
     checkAuth(req);
     try {
-      const post = await dataSources.postsAPI.updatePost(postId, description);
+      const postObjectId = new ObjectId(postId);
+      const post = await dataSources.postsAPI.updatePost(postObjectId, description);
       return { code: 200, message: 'Post updated', success: true, post };
     } catch (error) {
       return { code: 400, message: 'Something went wrong, try again later', success: true, post: null };
@@ -33,7 +34,8 @@ const Mutation: Resolvers['Mutation'] = {
     checkAuth(req);
 
     try {
-      dataSources.postsAPI.deletePost(postId);
+      const postObjectId = new ObjectId(postId);
+      dataSources.postsAPI.deletePost(postObjectId);
       return { code: 200, success: true, message: 'Post deleted' };
     } catch (error) {
       return { code: 400, success: false, message: 'Something went wrong, please try again later' };

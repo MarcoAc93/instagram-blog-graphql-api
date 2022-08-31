@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { checkAuth, compareHash, signToken } from "../../utils";
 import { Resolvers, User } from "../../__generated__/types";
 
@@ -25,7 +26,8 @@ const Query: Resolvers['Query'] = {
   },
   getUserById: async (_, { userId }, { dataSources, req }): Promise<User> => {
     checkAuth(req);
-    const user: User = await dataSources.usersAPI.getUserById(userId);
+    const userObjectId = new ObjectId(userId);
+    const user: User = await dataSources.usersAPI.getUserById(userObjectId);
     return user;
   },
 };

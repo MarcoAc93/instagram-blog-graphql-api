@@ -3,7 +3,7 @@ import { MongoDataSource } from "apollo-datasource-mongodb";
 
 import { CreatePostInput } from "../../__generated__/types";
 
-interface PostDocument {
+export interface PostDocument {
   _id: ObjectId;
   description: string;
   type: string;
@@ -52,6 +52,11 @@ class Post extends MongoDataSource<PostDocument> {
   async deletePost(postId: string) {
     const result = this.collection.deleteOne({ _id: new ObjectId(postId) });
     return result;
+  }
+
+  async updateNumberOfLikes(postId: ObjectId, numberOfLikes: number) {
+    const result = await this.collection.updateOne({ _id: postId }, { $set: { nofLikes: numberOfLikes } });
+    return await this.collection.findOne({ _id: postId });
   }
 }
 

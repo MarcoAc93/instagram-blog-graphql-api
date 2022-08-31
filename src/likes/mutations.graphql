@@ -1,0 +1,10 @@
+type LikeResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  post: Post
+}
+
+type Mutation {
+  increaseLikeForPost(postId: ID!): LikeResponse!
+}

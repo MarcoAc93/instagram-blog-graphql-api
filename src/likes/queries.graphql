@@ -6,12 +6,6 @@ type Like {
   updatedAt: String!
 }
 
-type LikeResponse {
-  code: Int!
-  success: Boolean!
-  message: String!
-}
-
 type Query {
-  getLikesForPost(postId: ID!): LikeResponse!
+  getLikesForPost(postId: ID!): [Like!]
 }

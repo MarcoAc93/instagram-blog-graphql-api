@@ -9,9 +9,10 @@ import resolvers from './resolvers';
 import typeDefs from './schema';
 
 import { Resolvers } from './__generated__/types';
-import Users from './users/datasource/usersDataBase';
-import Posts from './posts/datasource/postDataBase';
+import Users from './users/datasource/usersDataSource';
+import Posts from './posts/datasource/postDataSource';
 import Comments from './comments/datasource/commentsDataSource';
+import Likes from './likes/datasource/likeDataSource';
 
 async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
   const app = express();
@@ -33,6 +34,7 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
       usersAPI: new Users(mongoClient.db().collection('User')),
       postsAPI: new Posts(mongoClient.db().collection('Post')),
       commentsAPI: new Comments(mongoClient.db().collection('Comment')),
+      likesAPI: new Likes(mongoClient.db().collection('Like')),
     }),
     context: ({ req }) => ({ req }),
   });

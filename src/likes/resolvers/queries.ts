@@ -10,7 +10,7 @@ const Query: Resolvers['Query'] = {
 
     try {
       const postObjectId = new ObjectId(postId);
-      const dataLikes = await dataSources.likesAPI.getLikesForPost(postObjectId);
+      const dataLikes = await dataSources.likesAPI.getLikes(postObjectId);
       const count = dataLikes.length;
       const users = dataLikes.map((element: any): LikeUser => {
         const [user] = element.user as User[];
@@ -26,6 +26,22 @@ const Query: Resolvers['Query'] = {
       throw new ApolloError('We could not get the likes for this post :(');
     }
   },
+  getLikesForComment: async (_, { commentId }, { req, dataSources }) => {
+    checkAuth(req);
+
+    try {
+      const commentObjectId = new ObjectId(commentId);
+      const dataLikes = await dataSources.likesAPI.getLikes(undefined, commentObjectId);
+      const count = dataLikes.length;
+      const users = dataLikes.map((element: any): LikeUser => {
+        const [user] = element.user as User[];
+        return { _id: user._id, username: user.username, image: user.image, createdAt: element?.createdAt };
+      });
+      return { count, users };
+    } catch (error) {
+      throw new ApolloError('We could not get the likes for this comment :(');
+    }
+  }
 };
 
 export default Query;

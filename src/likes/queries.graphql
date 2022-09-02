@@ -5,11 +5,12 @@ type LikeUser {
   createdAt: String!
 }
 
-type LikesOfPost {
+type LikesResponse {
   count: Int!
   users: [LikeUser!]
 }
 
 type Query {
-  getLikesForPost(postId: ID!): LikesOfPost!
+  getLikesForPost(postId: ID!): LikesResponse!
+  getLikesForComment(commentId: ID!): LikesResponse!
 }

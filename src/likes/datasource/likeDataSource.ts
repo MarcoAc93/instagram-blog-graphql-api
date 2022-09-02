@@ -41,12 +41,14 @@ class Like extends MongoDataSource<LikeDocument> {
     }
   }
 
-  async getLikesForPost(postId: ObjectId) {
-    const likesCoursor = this.collection.aggregate([
-      { $match: { postId } },
-      { $lookup: { from: 'User', localField: 'userId', foreignField: '_id', as: 'user' } }
+  async getLikes(postId?: ObjectId, commentId?: ObjectId) {
+    const fieldMatcherKey = postId ? 'postId' : 'commentId';
+    const fieldMatcherValue = postId ? postId : commentId;
+    const likesCursor = this.collection.aggregate([
+      { $match: { [fieldMatcherKey]: fieldMatcherValue } },
+      { $lookup: { from: 'User', localField: 'userId', foreignField: '_id', as: 'user' } },
     ]);
-    return await likesCoursor.toArray();
+    return await likesCursor.toArray();
   }
 }
 

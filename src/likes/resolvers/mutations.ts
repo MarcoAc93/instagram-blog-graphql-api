@@ -41,6 +41,9 @@ const Mutation: Resolvers['Mutation'] = {
   },
   createLike: async (_, { createLikeInput: { commentId, postId } }, { req, dataSources }) => {
     const user = checkAuth(req);
+    if (commentId && postId) {
+      return { code: 400, success: false, message: 'Only provide the postId or commentId' };
+    }
     const userObjectId = new ObjectId(user._id);
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
@@ -77,7 +80,7 @@ const Mutation: Resolvers['Mutation'] = {
       return { code: 200, success: true, message: 'Post unliked', post };
     }
 
-    return { code: 400, success: false, message: 'You must provide a postId or commentId' }
+    return { code: 400, success: false, message: 'You must provide one postId or commentId' }
   },
 };
 

@@ -27,6 +27,7 @@ export type Comment = {
   _id: Scalars['ID'];
   createdAt: Scalars['String'];
   description: Scalars['String'];
+  numberOfLikes?: Maybe<Scalars['Int']>;
   postId: Scalars['ID'];
   updatedAt: Scalars['String'];
   userId: Scalars['ID'];
@@ -70,6 +71,11 @@ export type CommentsResponseData = {
   count: Scalars['Int'];
 };
 
+export type CreateLikeInput = {
+  commentId?: InputMaybe<Scalars['ID']>;
+  postId?: InputMaybe<Scalars['ID']>;
+};
+
 export type CreatePostAuthorInput = {
   _id: Scalars['ID'];
   image?: InputMaybe<Scalars['String']>;
@@ -99,6 +105,7 @@ export type CreateUserInput = {
 export type LikeResponse = {
   __typename?: 'LikeResponse';
   code: Scalars['Int'];
+  comment?: Maybe<Comment>;
   message: Scalars['String'];
   post?: Maybe<Post>;
   success: Scalars['Boolean'];
@@ -126,10 +133,12 @@ export type LoginInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createComment: CommentResponse;
+  createLike: LikeResponse;
   createPost: PostResponse;
   createUser: UserResponse;
   deletePost: PostResponse;
   deleteUser: UserResponse;
+  /** @deprecated Use createLike mutation for liking posts and comments */
   increaseLikeForPost: LikeResponse;
   updatePost: PostResponse;
   updateUser: UserResponse;
@@ -139,6 +148,11 @@ export type Mutation = {
 export type MutationCreateCommentArgs = {
   description: Scalars['String'];
   postId: Scalars['ID'];
+};
+
+
+export type MutationCreateLikeArgs = {
+  createLikeInput: CreateLikeInput;
 };
 
 
@@ -385,6 +399,7 @@ export type ResolversTypes = {
   CommentsOfPost: ResolverTypeWrapper<CommentsOfPost>;
   CommentsResponse: ResolverTypeWrapper<CommentsResponse>;
   CommentsResponseData: ResolverTypeWrapper<CommentsResponseData>;
+  CreateLikeInput: CreateLikeInput;
   CreatePostAuthorInput: CreatePostAuthorInput;
   CreatePostInput: CreatePostInput;
   CreateUserInput: CreateUserInput;
@@ -418,6 +433,7 @@ export type ResolversParentTypes = {
   CommentsOfPost: CommentsOfPost;
   CommentsResponse: CommentsResponse;
   CommentsResponseData: CommentsResponseData;
+  CreateLikeInput: CreateLikeInput;
   CreatePostAuthorInput: CreatePostAuthorInput;
   CreatePostInput: CreatePostInput;
   CreateUserInput: CreateUserInput;
@@ -452,6 +468,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  numberOfLikes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   postId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -498,6 +515,7 @@ export type CommentsResponseDataResolvers<ContextType = any, ParentType extends 
 
 export type LikeResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikeResponse'] = ResolversParentTypes['LikeResponse']> = {
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  comment?: Resolver<Maybe<ResolversTypes['Comment']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   post?: Resolver<Maybe<ResolversTypes['Post']>, ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -520,6 +538,7 @@ export type LikesOfPostResolvers<ContextType = any, ParentType extends Resolvers
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createComment?: Resolver<ResolversTypes['CommentResponse'], ParentType, ContextType, RequireFields<MutationCreateCommentArgs, 'description' | 'postId'>>;
+  createLike?: Resolver<ResolversTypes['LikeResponse'], ParentType, ContextType, RequireFields<MutationCreateLikeArgs, 'createLikeInput'>>;
   createPost?: Resolver<ResolversTypes['PostResponse'], ParentType, ContextType, RequireFields<MutationCreatePostArgs, 'createPostInput'>>;
   createUser?: Resolver<ResolversTypes['UserResponse'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'userInput'>>;
   deletePost?: Resolver<ResolversTypes['PostResponse'], ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'postId'>>;

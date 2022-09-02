@@ -6,6 +6,7 @@ interface CommentDocument {
   description: string;
   postId: ObjectId;
   userId: ObjectId;
+  numberOfLikes: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -23,6 +24,16 @@ class Comment extends MongoDataSource<CommentDocument> {
     const result = await this.collection.insertOne(newComment);
     const comment = await this.collection.findOne({ _id: result.insertedId });
     return comment;
+  }
+
+  async updateComment(commentId: ObjectId, updatedInfo: CommentDocument) {
+    await this.collection.updateOne({ _id: commentId }, { $set: { ...updatedInfo } });
+    const commentUpdated = await this.getCommentById(commentId);
+    return commentUpdated;
+  }
+
+  async getCommentById(commentId: ObjectId) {
+    return await this.collection.findOne({ _id: commentId });
   }
 };
 

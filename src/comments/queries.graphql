@@ -3,6 +3,7 @@ type Comment {
   description: String!
   postId: ID!
   userId: ID!
+  numberOfLikes: Int
   createdAt: String!
   updatedAt: String!
 }

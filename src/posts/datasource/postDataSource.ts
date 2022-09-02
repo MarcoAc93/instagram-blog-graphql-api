@@ -61,7 +61,7 @@ class Post extends MongoDataSource<PostDocument> {
 
   async updateNumberOfComments(postId: ObjectId, numberOfComments: number) {
     await this.collection.updateOne({ _id: postId }, { $set: { nofComments: numberOfComments} });
-    return await this.collection.findOne({ _id: postId });
+    return await this.getPostById(postId);
   }
 }
 

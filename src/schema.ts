@@ -5,4 +5,9 @@ import postSchema from './posts/schema';
 import commentsSchema from './comments/schema';
 import likesSchema from './likes/schema';
 
-export default gql([userSchema, postSchema, commentsSchema, likesSchema].join('\n'));
+export default gql([
+  userSchema,
+  postSchema,
+  commentsSchema,
+  likesSchema,
+].join('\n'));

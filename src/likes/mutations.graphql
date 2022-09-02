@@ -3,8 +3,15 @@ type LikeResponse {
   success: Boolean!
   message: String!
   post: Post
+  comment: Comment
+}
+
+input CreateLikeInput {
+  postId: ID
+  commentId: ID
 }
 
 type Mutation {
-  increaseLikeForPost(postId: ID!): LikeResponse!
+  increaseLikeForPost(postId: ID!): LikeResponse! @deprecated(reason: "Use createLike mutation for liking posts and comments")
+  createLike(createLikeInput: CreateLikeInput!): LikeResponse!
 }

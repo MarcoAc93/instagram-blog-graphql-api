@@ -140,6 +140,8 @@ export type Mutation = {
   deleteUser: UserResponse;
   /** @deprecated Use createLike mutation for liking posts and comments */
   increaseLikeForPost: LikeResponse;
+  passwordRecovery: UserResponse;
+  passwordReset: UserResponse;
   updatePost: PostResponse;
   updateUser: UserResponse;
 };
@@ -181,6 +183,16 @@ export type MutationIncreaseLikeForPostArgs = {
 };
 
 
+export type MutationPasswordRecoveryArgs = {
+  email: Scalars['String'];
+};
+
+
+export type MutationPasswordResetArgs = {
+  passwordResetInput: PasswordResetInput;
+};
+
+
 export type MutationUpdatePostArgs = {
   description: Scalars['String'];
   postId: Scalars['ID'];
@@ -196,6 +208,12 @@ export type MutationResponse = {
   code: Scalars['Int'];
   message: Scalars['String'];
   success: Scalars['Boolean'];
+};
+
+export type PasswordResetInput = {
+  code: Scalars['Int'];
+  email: Scalars['String'];
+  newPassword: Scalars['String'];
 };
 
 export type Post = {
@@ -417,6 +435,7 @@ export type ResolversTypes = {
   LoginInput: LoginInput;
   Mutation: ResolverTypeWrapper<{}>;
   MutationResponse: ResolversTypes['UserResponse'];
+  PasswordResetInput: PasswordResetInput;
   Post: ResolverTypeWrapper<Post>;
   PostResponse: ResolverTypeWrapper<PostResponse>;
   Query: ResolverTypeWrapper<{}>;
@@ -451,6 +470,7 @@ export type ResolversParentTypes = {
   LoginInput: LoginInput;
   Mutation: {};
   MutationResponse: ResolversParentTypes['UserResponse'];
+  PasswordResetInput: PasswordResetInput;
   Post: Post;
   PostResponse: PostResponse;
   Query: {};
@@ -550,6 +570,8 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deletePost?: Resolver<ResolversTypes['PostResponse'], ParentType, ContextType, RequireFields<MutationDeletePostArgs, 'postId'>>;
   deleteUser?: Resolver<ResolversTypes['UserResponse'], ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'userId'>>;
   increaseLikeForPost?: Resolver<ResolversTypes['LikeResponse'], ParentType, ContextType, RequireFields<MutationIncreaseLikeForPostArgs, 'postId'>>;
+  passwordRecovery?: Resolver<ResolversTypes['UserResponse'], ParentType, ContextType, RequireFields<MutationPasswordRecoveryArgs, 'email'>>;
+  passwordReset?: Resolver<ResolversTypes['UserResponse'], ParentType, ContextType, RequireFields<MutationPasswordResetArgs, 'passwordResetInput'>>;
   updatePost?: Resolver<ResolversTypes['PostResponse'], ParentType, ContextType, RequireFields<MutationUpdatePostArgs, 'description' | 'postId'>>;
   updateUser?: Resolver<ResolversTypes['UserResponse'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'userId' | 'userInput'>>;
 };

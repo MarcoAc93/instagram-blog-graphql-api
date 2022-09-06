@@ -68,6 +68,13 @@ class Users extends MongoDataSource<UserDocument> {
       return undefined;
     }
   }
+
+  async updatePassword(email: string, password: string) {
+    const fieldToUpdate = {};
+    Object.assign(fieldToUpdate, { password });
+    const result = await this.collection.updateOne({ email }, { $set: { ...fieldToUpdate } });
+    return result.acknowledged;
+  }
 }
 
 export default Users;

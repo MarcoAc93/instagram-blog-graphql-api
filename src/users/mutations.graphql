@@ -22,6 +22,12 @@ input UpdateUserInput {
   website: String
 }
 
+input PasswordResetInput {
+  code: Int!
+  email: String!
+  newPassword: String!
+}
+
 type UserResponse implements MutationResponse {
   code: Int!
   success: Boolean!
@@ -33,4 +39,6 @@ type Mutation {
   createUser(userInput: CreateUserInput!): UserResponse!
   updateUser(userId: ID!, userInput: UpdateUserInput!): UserResponse!
   deleteUser(userId: ID!): UserResponse!
+  passwordRecovery(email: String!): UserResponse!
+  passwordReset(passwordResetInput: PasswordResetInput!): UserResponse!
 }

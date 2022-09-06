@@ -16,6 +16,7 @@ import Users from './users/datasource/usersDataSource';
 import Posts from './posts/datasource/postDataSource';
 import Comments from './comments/datasource/commentsDataSource';
 import Likes from './likes/datasource/likeDataSource';
+import PasswordRecovery from './users/datasource/passwordRecoveryDataSource';
 
 async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
   const app = express();
@@ -38,6 +39,7 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
       postsAPI: new Posts(mongoClient.db().collection('Post')),
       commentsAPI: new Comments(mongoClient.db().collection('Comment')),
       likesAPI: new Likes(mongoClient.db().collection('Like')),
+      passwordRecoveryAPI: new PasswordRecovery(mongoClient.db().collection('Recovery')),
     }),
     context: ({ req }) => ({ req }),
   });

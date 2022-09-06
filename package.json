@@ -14,10 +14,13 @@
     "apollo-server-core": "^3.10.0",
     "apollo-server-express": "^3.10.0",
     "bcrypt": "^5.0.1",
+    "cloudinary": "^1.31.0",
+    "dotenv": "^16.0.2",
     "express": "^4.17.3",
     "graphql": "^16.5.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.5.2"
+    "mongoose": "^6.5.2",
+    "nodemailer": "^6.7.8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.11.6",

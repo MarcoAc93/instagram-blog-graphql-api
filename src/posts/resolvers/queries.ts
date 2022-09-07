@@ -1,12 +1,15 @@
 import { ApolloError } from "apollo-server-core";
 import { ObjectId } from 'mongodb';
 import { checkAuth } from "../../utils";
-import { Resolvers } from "../../__generated__/types";
+import { Post, Resolvers } from "../../__generated__/types";
 
 const Query: Resolvers['Query'] = {
-  getAllPosts: async (_, __, { dataSources, req }) => {
+  getAllPosts: async (_, { limit, page }, { dataSources, req }) => {
     checkAuth(req);
-    return await dataSources.postsAPI.getAllPosts();
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const posts = await dataSources.postsAPI.getAllPosts(startIndex, endIndex) as Post[];
+    return { code: 200, success: true, message: 'Posts info', data: posts };
   },
   getPost: async (_, { id }, { req, dataSources }) => {
     checkAuth(req);

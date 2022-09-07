@@ -5,7 +5,7 @@ import { Resolvers } from "../../__generated__/types";
 const Mutation: Resolvers['Mutation'] = {
   createPost: async (_, { createPostInput }, { dataSources, req }) => {
     const authUser = checkAuth(req);
-    const newPostInfo = { ...createPostInput };
+    const newPostInfo = { ...createPostInput, nofComments: 0, nofLikes: 0 };
     
     if (!createPostInput?.author) {
       const { _id, name, username, image } = authUser;

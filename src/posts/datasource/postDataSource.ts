@@ -27,8 +27,8 @@ class Post extends MongoDataSource<PostDocument> {
     return await this.collection.findOne({ _id: postId });
   }
 
-  async getAllPosts() {
-    const result = this.collection.find();
+  async getAllPosts(start: number, end: number) {
+    const result = this.collection.find().sort({ createdAt: -1 }).skip(start).limit(end);
     const posts = await result.toArray();
     return posts;
   }

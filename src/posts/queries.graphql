@@ -29,7 +29,14 @@ type Post {
   updatedAt: String!
 }
 
+type GetAllPostResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  data: [Post!]
+}
+
 type Query {
   getPost(id: ID!): Post!
-  getAllPosts: [Post!]
+  getAllPosts(page: Int!, limit: Int!): GetAllPostResponse!
 }

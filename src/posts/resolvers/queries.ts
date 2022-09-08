@@ -6,8 +6,9 @@ import { Post, Resolvers } from "../../__generated__/types";
 const Query: Resolvers['Query'] = {
   getAllPosts: async (_, { limit, page }, { dataSources, req }) => {
     checkAuth(req);
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
+    const pageNumber = !page ? 1 : page;
+    const startIndex = (pageNumber - 1) * limit;
+    const endIndex = pageNumber * limit;
     const posts = await dataSources.postsAPI.getAllPosts(startIndex, endIndex) as Post[];
     return { code: 200, success: true, message: 'Posts info', data: posts };
   },

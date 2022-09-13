@@ -11,8 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "apollo-datasource-mongodb": "^0.5.4",
+    "apollo-server": "^3.10.2",
     "apollo-server-core": "^3.10.0",
-    "apollo-server-express": "^3.10.0",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.31.0",
     "dotenv": "^16.0.2",

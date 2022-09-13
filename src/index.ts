@@ -1,10 +1,8 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import express from 'express';
-import http from 'http';
 import { DocumentNode } from 'graphql';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer } from 'apollo-server';
 import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { MongoClient } from 'mongodb';
 
@@ -19,10 +17,12 @@ import Likes from './likes/datasource/likeDataSource';
 import PasswordRecovery from './users/datasource/passwordRecoveryDataSource';
 
 async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
-  const app = express();
-  const httpServer = http.createServer(app);
-
-  const mongoClient = new MongoClient('mongodb://localhost:27017/instagram-blog');
+  const dbUser = process.env.DB_USERNAME;
+  const dbPass = process.env.DB_PASSWORD;
+  const dbName = process.env.DB_NAME;
+  const dbHost = process.env.DB_HOST;
+  const mongoConnectionUrl = `mongodb+srv://${dbUser}:${dbPass}@${dbHost}/${dbName}`;
+  const mongoClient = new MongoClient(mongoConnectionUrl);
   await mongoClient.connect();
 
   const server = new ApolloServer({
@@ -30,10 +30,7 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
     resolvers,
     csrfPrevention: true,
     cache: 'bounded',
-    plugins: [
-      ApolloServerPluginDrainHttpServer({ httpServer }),
-      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
-    ],
+    plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
     dataSources: () => ({
       usersAPI: new Users(mongoClient.db().collection('User')),
       postsAPI: new Posts(mongoClient.db().collection('Post')),
@@ -44,10 +41,9 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
     context: ({ req }) => ({ req }),
   });
 
-  await server.start();
-  server.applyMiddleware({ app });
-  await new Promise<void>(resolve => httpServer.listen({ port: 4000 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  const port = process.env.PORT || 4000;
+  const { url } = await server.listen({ port });
+  console.log(`Server running at ${url}`);
 };
 
 startApolloServer(typeDefs, resolvers);

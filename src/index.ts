@@ -3,7 +3,7 @@ dotenv.config();
 
 import { DocumentNode } from 'graphql';
 import { ApolloServer } from 'apollo-server';
-import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import { MongoClient } from 'mongodb';
 
 import resolvers from './resolvers';
@@ -15,6 +15,7 @@ import Posts from './posts/datasource/postDataSource';
 import Comments from './comments/datasource/commentsDataSource';
 import Likes from './likes/datasource/likeDataSource';
 import PasswordRecovery from './users/datasource/passwordRecoveryDataSource';
+
 
 async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
   const dbUser = process.env.DB_USERNAME;

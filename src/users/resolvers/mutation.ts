@@ -6,6 +6,9 @@ import { Resolvers, User, UserResponse } from "../../__generated__/types";
 
 const Mutation: Resolvers['Mutation'] = {
   createUser: async (_, { userInput }, { dataSources }): Promise<UserResponse> => {
+    const userExists = await dataSources.usersAPI.getUserToLogin(userInput.email);
+    if (userExists) return { success: false, message: 'email already exists', code: 200 };
+
     const user: User = await dataSources.usersAPI.createUser(userInput);
     return { user, code: 200, success: true, message: 'User created', __typename: 'UserResponse' };
   },

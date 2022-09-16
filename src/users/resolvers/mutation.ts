@@ -5,8 +5,7 @@ import { checkAuth, sendEmail, generateHash } from "../../utils";
 import { Resolvers, User, UserResponse } from "../../__generated__/types";
 
 const Mutation: Resolvers['Mutation'] = {
-  createUser: async (_, { userInput }, { dataSources, req }): Promise<UserResponse> => {
-    checkAuth(req);
+  createUser: async (_, { userInput }, { dataSources }): Promise<UserResponse> => {
     const user: User = await dataSources.usersAPI.createUser(userInput);
     return { user, code: 200, success: true, message: 'User created', __typename: 'UserResponse' };
   },

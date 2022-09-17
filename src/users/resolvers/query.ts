@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { checkAuth, compareHash, signToken } from "../../utils";
+import { checkAuth, compareHash, signToken, verifyToken } from "../../utils";
 import { Resolvers, User } from "../../__generated__/types";
 
 const Query: Resolvers['Query'] = {
@@ -29,6 +29,10 @@ const Query: Resolvers['Query'] = {
     const userObjectId = new ObjectId(userId);
     const user: User = await dataSources.usersAPI.getUserById(userObjectId);
     return user;
+  },
+  decodeUserToken: async (_, { token }, { dataSources }) => {
+    const decodedToken = verifyToken(token) as User;
+    return decodedToken;
   },
 };
 

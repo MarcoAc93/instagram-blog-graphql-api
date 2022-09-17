@@ -249,6 +249,7 @@ export type PostResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  decodeUserToken?: Maybe<User>;
   getAllPosts: GetAllPostResponse;
   /** This query will return an array (or empty array) with all the users on the DB */
   getAllUsers: Array<Maybe<User>>;
@@ -260,6 +261,11 @@ export type Query = {
   getUserById?: Maybe<User>;
   /** Query for login a user */
   login: UserLoginResponse;
+};
+
+
+export type QueryDecodeUserTokenArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -631,6 +637,7 @@ export type PostResponseResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  decodeUserToken?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryDecodeUserTokenArgs, 'token'>>;
   getAllPosts?: Resolver<ResolversTypes['GetAllPostResponse'], ParentType, ContextType, RequireFields<QueryGetAllPostsArgs, 'limit' | 'page'>>;
   getAllUsers?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
   getCommetsForPost?: Resolver<ResolversTypes['CommentsResponse'], ParentType, ContextType, RequireFields<QueryGetCommetsForPostArgs, 'postId'>>;

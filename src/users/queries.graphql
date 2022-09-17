@@ -46,4 +46,5 @@ type Query {
   getUserById(userId: String!): User
   "Query for login a user"
   login(loginInput: LoginInput!): UserLoginResponse!
+  decodeUserToken(token: String!): User
 }

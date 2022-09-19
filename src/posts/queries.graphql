@@ -25,6 +25,7 @@ type Post {
   author: Author
   nofComments: Int
   nofLikes: Int
+  comments: [Comment]!
   createdAt: String!
   updatedAt: String!
 }

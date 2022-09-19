@@ -9,7 +9,7 @@ const Query: Resolvers['Query'] = {
     const pageNumber = !page ? 1 : page;
     const startIndex = (pageNumber - 1) * limit;
     const endIndex = pageNumber * limit;
-    const posts = await dataSources.postsAPI.getAllPosts(startIndex, endIndex) as Post[];
+    const posts = await dataSources.postsAPI.getAllPosts(startIndex, endIndex);
     return { code: 200, success: true, message: 'Posts info', data: posts };
   },
   getPost: async (_, { id }, { req, dataSources }) => {

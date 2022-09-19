@@ -28,7 +28,31 @@ class Post extends MongoDataSource<PostDocument> {
   }
 
   async getAllPosts(start: number, end: number) {
-    const result = this.collection.find().sort({ createdAt: -1 }).skip(start).limit(end);
+    const result = this.collection.aggregate([
+      { $sort: { createdAt: -1 } },
+      { $limit: end },
+      { $skip: start },
+      {
+        $lookup: {
+          from: 'Comment',
+          localField: '_id',
+          foreignField: 'postId',
+          as: 'comments',
+          pipeline: [
+            { $limit: 3 },
+            {
+              $lookup: {
+                from: 'User',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'author',
+              },
+            },
+            { $unwind: '$author' },
+          ]
+        }
+      },
+    ]);
     const posts = await result.toArray();
     return posts;
   }

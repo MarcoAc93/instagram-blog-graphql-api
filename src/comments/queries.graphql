@@ -6,6 +6,7 @@ type Comment {
   numberOfLikes: Int
   createdAt: String!
   updatedAt: String!
+  author: CommentUser
 }
 
 type CommentUser {

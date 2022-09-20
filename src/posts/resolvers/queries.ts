@@ -9,7 +9,18 @@ const Query: Resolvers['Query'] = {
     const pageNumber = !page ? 1 : page;
     const startIndex = (pageNumber - 1) * limit;
     const endIndex = pageNumber * limit;
-    const posts = await dataSources.postsAPI.getAllPosts(startIndex, endIndex);
+    const postsResults = await dataSources.postsAPI.getAllPosts(startIndex, endIndex);
+    const posts = postsResults.reduce((acc: any[], post: { likes: any[]; }) => {
+      const likesArray = post.likes.map(like => ({
+        _id: like._id,
+        username: like.author.username,
+        image: like.author.image,
+        createdAt: like.author.createdAt,
+      }));
+      acc.push({ ...post, likes: likesArray });
+      return acc;
+    }, []);
+    
     return { code: 200, success: true, message: 'Posts info', data: posts };
   },
   getPost: async (_, { id }, { req, dataSources }) => {

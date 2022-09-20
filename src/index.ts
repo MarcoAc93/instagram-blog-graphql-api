@@ -22,7 +22,8 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
   const dbPass = process.env.DB_PASSWORD;
   const dbName = process.env.DB_NAME;
   const dbHost = process.env.DB_HOST;
-  const mongoConnectionUrl = `mongodb+srv://${dbUser}:${dbPass}@${dbHost}/${dbName}`;
+  const env = process.env.NODE_ENV;
+  const mongoConnectionUrl = env === 'development' ? `mongodb://localhost:27017/${dbName}` : `mongodb+srv://${dbUser}:${dbPass}@${dbHost}/${dbName}`;
   const mongoClient = new MongoClient(mongoConnectionUrl);
   await mongoClient.connect();
 

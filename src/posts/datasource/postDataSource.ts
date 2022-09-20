@@ -52,6 +52,25 @@ class Post extends MongoDataSource<PostDocument> {
           ]
         }
       },
+      {
+        $lookup: {
+          from: 'Like',
+          localField: '_id',
+          foreignField: 'postId',
+          as: 'likes',
+          pipeline: [
+            {
+              $lookup: {
+                from: 'User',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'author',
+              },
+            },
+            { $unwind: '$author' }
+          ]
+        }
+      }
     ]);
     const posts = await result.toArray();
     return posts;

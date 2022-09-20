@@ -24,8 +24,9 @@ type Post {
   video: String
   author: Author
   nofComments: Int
-  nofLikes: Int
   comments: [Comment]!
+  nofLikes: Int
+  likes: [LikeUser]!
   createdAt: String!
   updatedAt: String!
 }

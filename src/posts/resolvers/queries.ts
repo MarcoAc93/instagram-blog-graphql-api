@@ -13,6 +13,8 @@ const Query: Resolvers['Query'] = {
     const posts = postsResults.reduce((acc: any[], post: { likes: any[]; }) => {
       const likesArray = post.likes.map(like => ({
         _id: like._id,
+        postId: like.postId,
+        userId: like.userId,
         username: like.author.username,
         image: like.author.image,
         createdAt: like.author.createdAt,

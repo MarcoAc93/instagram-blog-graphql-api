@@ -48,6 +48,14 @@ class Post extends MongoDataSource<PostDocument> {
                 as: 'author',
               },
             },
+            {
+              $lookup: {
+                from: 'Like',
+                localField: '_id',
+                foreignField: 'commentId',
+                as: 'likes',
+              }
+            },
             { $unwind: '$author' },
           ]
         }

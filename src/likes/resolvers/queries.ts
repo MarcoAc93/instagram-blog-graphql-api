@@ -15,7 +15,9 @@ const Query: Resolvers['Query'] = {
       const users = dataLikes.map((element: any): LikeUser => {
         const [user] = element.user as User[];
         return {
-          _id: user._id,
+          _id: element._id,
+          userId: user._id,
+          postId: element.postId,
           username: user.username,
           image: user.image,
           createdAt: element.createdAt,
@@ -35,7 +37,14 @@ const Query: Resolvers['Query'] = {
       const count = dataLikes.length;
       const users = dataLikes.map((element: any): LikeUser => {
         const [user] = element.user as User[];
-        return { _id: user._id, username: user.username, image: user.image, createdAt: element?.createdAt };
+        return {
+          _id: element._id,
+          userId: user._id,
+          commentId: element._id,
+          username: user.username,
+          image: user.image,
+          createdAt: element?.createdAt,
+        };
       });
       return { count, users };
     } catch (error) {

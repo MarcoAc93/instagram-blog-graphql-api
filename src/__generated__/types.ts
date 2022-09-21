@@ -124,10 +124,10 @@ export type LikeResponse = {
 export type LikeUser = {
   __typename?: 'LikeUser';
   _id: Scalars['ID'];
-  commentId: Scalars['ID'];
+  commentId?: Maybe<Scalars['ID']>;
   createdAt: Scalars['String'];
   image?: Maybe<Scalars['String']>;
-  postId: Scalars['ID'];
+  postId?: Maybe<Scalars['ID']>;
   userId: Scalars['ID'];
   username: Scalars['String'];
 };
@@ -589,10 +589,10 @@ export type LikeResponseResolvers<ContextType = any, ParentType extends Resolver
 
 export type LikeUserResolvers<ContextType = any, ParentType extends ResolversParentTypes['LikeUser'] = ResolversParentTypes['LikeUser']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  commentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  commentId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   image?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  postId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  postId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

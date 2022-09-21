@@ -16,6 +16,7 @@ class Comment extends MongoDataSource<CommentDocument> {
     const commentsCursor = this.collection.aggregate([
       { $match: { postId } },
       { $lookup: { from: 'User', localField: 'userId', foreignField: '_id', as: 'user' } },
+      { $lookup: { from: 'Like', localField: '_id', foreignField: 'commentId', as: 'likes' } },
     ])
     return await commentsCursor.toArray();
   }

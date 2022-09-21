@@ -11,6 +11,7 @@ const Query: Resolvers['Query'] = {
       const postObjectId = new ObjectId(postId);
       const result = await dataSources.commentsAPI.getAllCommentsFromPost(postObjectId);
       const comments: CommentsOfPost[] = result.map((element: any): CommentsOfPost => {
+        console.log(element);
         const [user] = element.user as User[];
 
         const comment: CommentsOfPost = {
@@ -18,7 +19,8 @@ const Query: Resolvers['Query'] = {
           createdAt: element.createdAt,
           description: element.description,
           postId: element.postId,
-          numberOfLikes: element.numberOfLikes,
+          numberOfLikes: element.numberOfLikes ?? 0,
+          likes: element.likes,
           user: {
             _id: user._id,
             username: user.username,

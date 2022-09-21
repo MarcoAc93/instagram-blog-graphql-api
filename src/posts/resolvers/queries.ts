@@ -5,12 +5,12 @@ import { Post, Resolvers } from "../../__generated__/types";
 
 const Query: Resolvers['Query'] = {
   getAllPosts: async (_, { limit, page }, { dataSources, req }) => {
-    checkAuth(req);
+    const decodedUser = checkAuth(req);
     const pageNumber = !page ? 1 : page;
     const startIndex = (pageNumber - 1) * limit;
     const endIndex = pageNumber * limit;
-    const postsResults = await dataSources.postsAPI.getAllPosts(startIndex, endIndex);
-    const posts = postsResults.reduce((acc: any[], post: { likes: any[]; }) => {
+    const postsResults = await dataSources.postsAPI.getAllPosts(startIndex, endIndex, { userId: decodedUser._id });
+    const posts = postsResults.reduce((acc: any[], post: { likes: any[]; comments: any[] }) => {
       const likesArray = post.likes.map(like => ({
         _id: like._id,
         postId: like.postId,

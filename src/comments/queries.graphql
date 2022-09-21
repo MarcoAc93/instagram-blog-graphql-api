@@ -4,6 +4,7 @@ type Comment {
   postId: ID!
   userId: ID!
   numberOfLikes: Int
+  liked: LikeUser
   createdAt: String!
   updatedAt: String!
   author: CommentUser

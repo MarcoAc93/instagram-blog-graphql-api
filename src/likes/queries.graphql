@@ -2,6 +2,7 @@ type LikeUser {
   _id: ID!
   postId: ID!
   userId: ID!
+  commentId: ID!
   username: String!
   image: String
   createdAt: String!

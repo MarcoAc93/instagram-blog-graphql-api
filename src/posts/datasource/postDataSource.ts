@@ -27,7 +27,7 @@ class Post extends MongoDataSource<PostDocument> {
     return await this.collection.findOne({ _id: postId });
   }
 
-  async getAllPosts(start: number, end: number) {
+  async getAllPosts(start: number, end: number, options: any) {
     const result = this.collection.aggregate([
       { $sort: { createdAt: -1 } },
       { $limit: end },
@@ -53,10 +53,14 @@ class Post extends MongoDataSource<PostDocument> {
                 from: 'Like',
                 localField: '_id',
                 foreignField: 'commentId',
-                as: 'likes',
+                as: 'liked',
+                pipeline: [
+                  { $match: { userId: new ObjectId(options.userId) } }
+                ],
               }
             },
             { $unwind: '$author' },
+            { $unwind: '$liked' },
           ]
         }
       },

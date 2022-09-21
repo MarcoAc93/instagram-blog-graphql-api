@@ -28,7 +28,7 @@ export type Comment = {
   author?: Maybe<CommentUser>;
   createdAt: Scalars['String'];
   description: Scalars['String'];
-  liked?: Maybe<LikeUser>;
+  likes: Array<Maybe<LikeUser>>;
   numberOfLikes?: Maybe<Scalars['Int']>;
   postId: Scalars['ID'];
   updatedAt: Scalars['String'];
@@ -524,7 +524,7 @@ export type CommentResolvers<ContextType = any, ParentType extends ResolversPare
   author?: Resolver<Maybe<ResolversTypes['CommentUser']>, ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  liked?: Resolver<Maybe<ResolversTypes['LikeUser']>, ParentType, ContextType>;
+  likes?: Resolver<Array<Maybe<ResolversTypes['LikeUser']>>, ParentType, ContextType>;
   numberOfLikes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   postId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

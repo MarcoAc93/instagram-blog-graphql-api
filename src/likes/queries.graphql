@@ -1,7 +1,7 @@
 type LikeUser {
   _id: ID!
-  postId: ID
   userId: ID!
+  postId: ID
   commentId: ID
   username: String!
   image: String

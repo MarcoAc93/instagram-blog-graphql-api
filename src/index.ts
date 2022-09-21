@@ -32,7 +32,6 @@ async function startApolloServer(typeDefs: DocumentNode, resolvers: Resolvers) {
     resolvers,
     csrfPrevention: true,
     cache: 'bounded',
-    introspection: true,
     plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
     dataSources: () => ({
       usersAPI: new Users(mongoClient.db().collection('User')),

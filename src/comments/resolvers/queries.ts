@@ -18,6 +18,7 @@ const Query: Resolvers['Query'] = {
           createdAt: element.createdAt,
           description: element.description,
           postId: element.postId,
+          numberOfLikes: element.numberOfLikes,
           user: {
             _id: user._id,
             username: user.username,

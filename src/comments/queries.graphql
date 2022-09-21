@@ -21,6 +21,7 @@ type CommentsOfPost {
   description: String!
   postId: String!
   createdAt: String!
+  numberOfLikes: Int!
   user: CommentUser!
 }
 

@@ -55,6 +55,7 @@ export type CommentsOfPost = {
   _id: Scalars['ID'];
   createdAt: Scalars['String'];
   description: Scalars['String'];
+  numberOfLikes: Scalars['Int'];
   postId: Scalars['String'];
   user: CommentUser;
 };
@@ -551,6 +552,7 @@ export type CommentsOfPostResolvers<ContextType = any, ParentType extends Resolv
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  numberOfLikes?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   postId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   user?: Resolver<ResolversTypes['CommentUser'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
